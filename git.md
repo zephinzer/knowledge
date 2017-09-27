@@ -62,6 +62,9 @@
 ### Clone a repository into a named directory
 `git clone __REMOTE_URL__ __DIRECTORY_NAME__`
 
+### Create a commit without files
+`git commit -m "commit message" --allow-empty"`
+
 ### Delete a local branch forcefully
 `git branch -D __BRANCH_NAME__`
 
@@ -72,6 +75,9 @@
 `git push -d __REMOTE_NAME__ __BRANCH_NAME__`
 
 `git fetch --all --prune`
+
+### Delete all changes since branching
+`git fetch __REMOTE__NAME__ && git reset --hard FETCH_HEAD && git clean -df`
 
 ### Fetch changes from remote repository
 `git fetch __REMOTE_NAME__`
@@ -88,16 +94,12 @@
 ### Ignore changes in a file for current commit
 `git update-index --skip-worktree __FILENAME__`
 
-### Pull changes from remote
+### Pull via Merge (fetch changes from remote and merge via merge)
 `git pull __REMOTE_NAME__ __BRANCH_NAME__`
 
-> This performs a fetch and merge
-
-### Pull changes from remote and merge via rebase
+### Pull via Rebase (fetch changes from remote and merge via rebase)
 
 `git pull --rebase __REMOTE_NAME__ __BRANCH_NAME__`
-
-> This performs a fetch and rebase
 
 ### Push local commits to remote
 `git push __REMOTE_NAME__ __BRANCH_NAME__`
