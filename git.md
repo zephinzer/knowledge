@@ -1,5 +1,11 @@
 # Git
 
+1. [Code Logistic Models](#code-logistic-models)
+2. [Troubleshooting](#troubleshooting)
+3. [Atomics (Glossary?)](#atomics-glossary)
+
+- - -
+
 ## Code Logistic Models
 
 ### Feature Branching
@@ -19,9 +25,28 @@
     - `git push origin feature_123456789`
 5. Create a merge request from your source control remote
 
+- - -
+
 ## Troubleshooting
 
 ### Handling merge conflicts
+
+#### Symptom
+On pull, you get a message that resembles the following:
+
+- `CONFLICT (content): Merge conflict in some-file`
+- `CONFLICT (submodule): Merge conflict in some-submodule/some-file`
+
+#### Diagnosis
+Get the repo status by running:
+
+`git status`
+
+See the merge conflicts by running:
+
+`diff --cc some-file` or `diff --cc some-submodule/some-file`
+
+#### Solution
 
 1. List files with merge conflicts
     - `git status`
@@ -36,13 +61,19 @@
 
 ### Published branches not getting fetched
 
+#### Symptom
+Running `git fetch` does not fetch all branches even if they show up in the remote repository.
+
 #### Diagnosis
 `git config --get remote.__REMOTE_NAME__.fetch`
 
 #### Solution
 `git config remote.__REMOTE_NAME__.fetch "+refs/heads/*:refs/remotes/__REMOTE_NAME__/*"`
 
-## Atomics
+- - -
+
+## Atomics (Glossary?)
+
 
 ### Add a new remote
 `git remote add __REMOTE_NAME__`
