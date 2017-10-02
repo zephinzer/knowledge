@@ -93,6 +93,12 @@ Running `git fetch` does not fetch all branches even if they show up in the remo
 ### Clone a repository into a named directory
 `git clone __REMOTE_URL__ __DIRECTORY_NAME__`
 
+### Configure your email
+`git config --global user.email "you@email.com"`
+
+### Configure your name
+`git config --global user.name "your name"`
+
 ### Create a commit without files
 `git commit -m "commit message" --allow-empty"`
 
