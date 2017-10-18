@@ -2,7 +2,7 @@
 
 1. [Code Logistic Models](#code-logistic-models)
 2. [Troubleshooting](#troubleshooting)
-3. [Atomics (Glossary?)](#atomics-glossary)
+3. [Atomics (Glossary)](#atomics-glossary)
 
 - - -
 
@@ -72,7 +72,7 @@ Running `git fetch` does not fetch all branches even if they show up in the remo
 
 - - -
 
-## Atomics (Glossary?)
+## Atomics (Glossary)
 
 
 ### Add a new remote

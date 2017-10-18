@@ -13,7 +13,24 @@ COPY . /app
 ENTRYPOINT ["yarn", "--version"]
 ```
 
-### Docker-Compose from Dockerfile
+### Docker-Compose from Remote Image
+> This assumes `docker-compose.yml` resides in the same directory you're running the `docker-compose` command:
+
+```yaml
+version: "3"
+services:
+  app:
+    image: zephinzer/alpine-node:latest
+    entrypoint: "yarn --version"
+```
+
+Execute it with:
+
+```bash
+$ docker-compose run app
+```
+
+### Docker-Compose from Dockerfile in Project Root
 > This assumes there exists a `Dockerfile` file in the same directory at the `docker-compose.yml`:
 
 ```yaml
@@ -24,11 +41,27 @@ services:
     entrypoint: "yarn --version"
 ```
 
-### Docker-Compose from Remote Image
+Execute it with:
+
+```bash
+$ docker-compose run app
+```
+
+### Docker-Compose from Dockerfile not in Project Root
+> This assumes that `docker-compose.yml` resides in a `./provisioning` directory and that the `Dockerfile` resides in `./path/to/Dockerfile`.
+
 ```yaml
 version: "3"
 services:
   app:
-    image: zephinzer/alpine-node:latest
+    build:
+      context: ../
+      dockerfile: ./path/to/Dockerfile
     entrypoint: "yarn --version"
+```
+
+Execute it with:
+
+```bash
+$ docker-compose -f ./provisioning/docker-compose.yml run app
 ```
