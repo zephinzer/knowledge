@@ -1,4 +1,4 @@
-# Google Cloud
+# Google Cloud Platform (GCP)
 
 ## Installing GCloud SDK
 
@@ -50,6 +50,14 @@ For Singapore, use: `asia-southeast1`
 $ gcloud compute instances list
 ```
 
+### Create global static IP address
+
+```bash
+$ gcloud compute addresses create __IP_ADDRESS_RESOURCE_NAME__ --global
+```
+
+`__IP_ADDRESS_RESOURCE_NAME__` : This will be the referenceable ID of your static IP address.
+
 ## Container Engine (GKE)
 
 ### Installing required components
@@ -79,12 +87,12 @@ $ gcloud container clusters get-credentials __GKE_CLUSTER_ID__
 ### Create deployment
 
 ```bash
-$ kubectl run __DEPLOYMENT_NAME__ --image=__IMAGE_URL__ --port __PORT__
+$ kubectl run __DEPLOYMENT_NAME__ --image=__IMAGE_NAME__ --port __PORT__
 ```
 
 `__DEPLOYMENT_NAME__` is an arbitrary name you'd like to prefix all your pods with.
 
-`__IMAGE_URL__` is your image name in GCR. See [Container Registry (GCR)](#container-registry-gcr) for more
+`__IMAGE_NAME__` is your image name in GCR. See [Container Registry (GCR)](#container-registry-gcr) for more
 
 `__PORT__` is the port which your application listens to.
 
@@ -141,6 +149,55 @@ Pull your image using:
 $ gcloud docker -- pull __GCR_HOSTNAME__/__PROJECT_ID__/__IMAGE_ID__:__VERSION__
 ```
 
+## Firewall Rules
+
+Health check pings source IP address range:
+
+- 130.211.0.0/22
+- 35.191.0.0/16
+
+> In GCP, this is in the menu: **VPC Network > Firewall rules**
+
+## Kubernetes Mappings
+
+This section covers where to find which Kubernetes resources where in GCP
+
+### Cluster
+
+**Container Engine** > **Container clusters**
+
+### ConfigMap
+
+**Container Engine** > **Configuration**
+
+### Containers
+
+**Storage** > **Browser** > *BROWSE `/containers`*
+
+### Deployments
+
+**Container Engine** > **Workloads**
+
+### Health Checks/Liveness/Readiness
+
+**Compute Engine** > **Health checks**
+
+### Ingresses
+
+**Network Services** > **Load balancing**
+
+### Services
+
+**Container Engine** > **Workloads**
+
+## Troubleshooting
+
+### `error: unable to recognize "./api.yaml": no matches for /, Kind=Deployment`
+
+The `apiVersion` root property has not been set.
+
+
 ## Useful Links
 
 - [Deploying a containerized web application](https://cloud.google.com/container-engine/docs/tutorials/hello-app)
+- [Troubleshooting ingress and service traffic flows](http://blog.wercker.com/troubleshooting-ingress-kubernetes)

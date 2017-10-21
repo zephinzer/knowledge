@@ -7,7 +7,8 @@
 ### Dockerfile Base
 ```dockerfile
 FROM zephinzer/alpine-node:latest
-LABEL maintainer=you@yourself.me
+LABEL maintainer=you@yourself.me \
+      version=1.0.0
 RUN echo 'it works'
 COPY . /app
 ENTRYPOINT ["yarn", "--version"]
