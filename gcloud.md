@@ -196,8 +196,18 @@ This section covers where to find which Kubernetes resources where in GCP
 
 The `apiVersion` root property has not been set.
 
+## Useful Aliases
+> Include this inside your `~/.profile` or specific `.[?]shrc` file
+
+```sh
+alias gc='gcloud';
+alias gce='gcloud compute';
+alias gke='gcloud container';
+alias gcdpush='gcloud docker -- push';
+alias gcdpull='gcloud docker -- pull';
+```
 
 ## Useful Links
 
 - [Deploying a containerized web application](https://cloud.google.com/container-engine/docs/tutorials/hello-app)
-- [Troubleshooting ingress and service traffic flows](http://blog.wercker.com/troubleshooting-ingress-kubernetes)
+

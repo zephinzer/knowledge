@@ -161,5 +161,39 @@ data:
 
 `__BASE64_ENCODED_CERT__` : Run `cat certificate.crt | base64` to get the base64 encoded certificate file
 
+## Useful Aliases
+> Include this inside your `~/.profile` or specific `.[?]shrc` file
+
+```sh
+alias kc='kubectl';
+alias kca='kubectl apply -f';
+alias kcd='kubectl describe';
+alias kcdp='kubectl describe pod';
+alias kcdn='kubectl describe node';
+alias kcdd='kubectl describe deployment';
+alias kcds='kubectl describe service';
+alias kcdsec='kubectl describe sercret';
+alias kcdi='kubectl describe ing';
+alias kcdcm='kubectl describe cm';
+alias kcdel='kubectl delete';
+alias kcg='kubectl get';
+alias kcgp='kubectl get pods -o wide';
+alias kcgn='kubectl get nodes -o wide';
+alias kcgep='kubectl get ep -o wide';
+alias kcgd='kubectl get deploy -o wide';
+alias kcgs='kubectl get svc -o wide';
+alias kcgsec='kubectl get secrets -o wide';
+alias kcgi='kubectl get ing -o wide';
+alias kcgcm='kubectl get cm -o wide';
+alias kcl='kubectl logs';
+alias kclf='kubectl logs -f';
+alias kcexec='kubectl exec';
+```
+
 ## Useful Links
+
+- [Quickstart for Google Container Engine](https://cloud.google.com/container-engine/docs/quickstart)
+- [Deploying a containerized web application](https://cloud.google.com/container-engine/docs/tutorials/hello-app)
+- [Setting up HTTP Load Balancing with Ingress](https://cloud.google.com/container-engine/docs/tutorials/http-balancer)
 - [Advanced Ingress Configuration](https://docs.giantswarm.io/guides/advanced-ingress-configuration/)
+- [Troubleshooting ingress and service traffic flows](http://blog.wercker.com/troubleshooting-ingress-kubernetes)
