@@ -192,8 +192,5 @@ alias kcexec='kubectl exec';
 
 ## Useful Links
 
-- [Quickstart for Google Container Engine](https://cloud.google.com/container-engine/docs/quickstart)
-- [Deploying a containerized web application](https://cloud.google.com/container-engine/docs/tutorials/hello-app)
-- [Setting up HTTP Load Balancing with Ingress](https://cloud.google.com/container-engine/docs/tutorials/http-balancer)
 - [Advanced Ingress Configuration](https://docs.giantswarm.io/guides/advanced-ingress-configuration/)
 - [Troubleshooting ingress and service traffic flows](http://blog.wercker.com/troubleshooting-ingress-kubernetes)

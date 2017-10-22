@@ -209,5 +209,7 @@ alias gcdpull='gcloud docker -- pull';
 
 ## Useful Links
 
+- [Quickstart for Google Container Engine](https://cloud.google.com/container-engine/docs/quickstart)
 - [Deploying a containerized web application](https://cloud.google.com/container-engine/docs/tutorials/hello-app)
-
+- [Setting up HTTP Load Balancing with Ingress](https://cloud.google.com/container-engine/docs/tutorials/http-balancer)
+- [Tuning NGINX behind Google Cloud Platform HTTP(S) Load Balancer](https://blog.percy.io/tuning-nginx-behind-google-cloud-platform-http-s-load-balancer-305982ddb340)
