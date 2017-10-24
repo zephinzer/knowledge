@@ -2,39 +2,41 @@
 
 - - -
 
-## Deployments
+## Atomics
 
-### Using `kubectl`
-#### Creating
+### Deployments
+
+#### Using `kubectl`
+##### Creating
 > This assumes we want to start an `nginx` service using the `nginx` image, exposing port 80.
 
 ```bash
 $ kubectl run nginx --image=nginx --port=80
 ```
 
-#### Exposing
+##### Exposing
 > This exposes an existing deployment named `nginx` which has port 80 exposed.
 
 ```bash
 $ kubectl expose deployment nginx --target-port=80 --type=NodePort
 ```
 
-#### Scaling
+##### Scaling
 > This scales a deployment named `nginx` to use 2 replicas.
 
 ```bash
 $ kubectl scale deployment nginx --replicas=2
 ```
 
-#### Updating
+##### Updating
 > This updates a deployment using a `specfile`
 
 ```bash
 $ kubectl apply -f ./path/to/specfile.yaml
 ```
 
-### Using Specfile
-#### Template
+#### Using Specfile
+##### Template
 Save the following as a `.yaml` file:
 
 ```yaml
@@ -66,7 +68,7 @@ spec:
         - containerPort: __DEPLOYMENT_CONTAINER_PORT__
 ```
 
-#### Variables
+##### Variables
 
 `__DEPLOYMENT_NAME__` : The name of your deployment
 
@@ -83,11 +85,11 @@ spec:
 
 - - -
 
-## Ingresses
+### Ingresses
  
-### Using Specfile
+#### Using Specfile
 
-#### Template for `nginx-ingress-controller`
+##### Template for `nginx-ingress-controller`
 
 > Creates a basic Ingress resource using `nginx-ingress-controller`
 
@@ -130,19 +132,21 @@ spec:
 
 `__INGRESS_NAME__` : Name for your Ingress resource
 
-## Secrets
+- - -
 
-### Using `kubectl`
+### Secrets
 
-#### Creating a TLS Secret resource
+#### Using `kubectl`
+
+##### Creating a TLS Secret resource
 
 ```bash
 $ kubectl create secret tls __SECRET_NAME__ --key ./path/to/key --cert ./path/to/crt
 ```
 
-### Using Specfile
+#### Using Specfile
 
-#### Template for TLS Secret
+##### Template for TLS Secret
 
 ```yaml
 kind: Secret
@@ -160,6 +164,106 @@ data:
 `__BASE64_ENCODED_KEY__` : Run `cat privateKey.key | base64` to get the base64 encoded private key
 
 `__BASE64_ENCODED_CERT__` : Run `cat certificate.crt | base64` to get the base64 encoded certificate file
+
+- - -
+
+## Useful Stuff
+
+### Automatic Let's Encrypt SSL Cert Provisioning
+The tool to use is `kube-lego`. Check out:
+
+- [The GitHub Repository](https://github.com/jetstack/kube-lego)
+- [This Useful Guide](https://www.matt-j.co.uk/2017/03/03/automatic-dns-and-ssl-on-kubernetes-with-letsencrypt-part-2/)
+
+#### The specfile
+Before deploying the specfile below, set up your Ingresses so that they contain the following annotation:
+
+`kubernetes.io/tls-acme: "true"`
+
+Next, add the `tls` field to your `spec` as follows:
+
+```yaml
+spec:
+  ...
+  tls:
+  - secretName: secret1-tls # IMPORTANT: end it with '-tls' so that kube-lego can recognise it
+    hosts:
+    - example.com
+    - api.example.com
+  - secretName: secret2-tls # see above IMPORTANT note
+    hosts:
+    - example2.com
+```
+
+`kube-lego` will detect the annotation above, and read from the `tls` section. For the above example, two certificates will be registered, one for `example.com` and `api.example.com`, and the second certificate will be for `example2.com`. The two certificates will be automatically created as Kubernetes Secrets with the names `secret1-tls` and `secret2-tls` in the namespace which your Ingress exists in.
+
+Deploy the following specfile to set up `kube-lego`:
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: kube-lego-cm
+  namespace: kube-system
+data:
+  lego.email: "email@example.com"
+  lego.url: "https://acme-v01.api.letsencrypt.org/directory"
+  # staging: "https://acme-staging.api.letsencrypt.org/directory"
+  # production: "https://acme-v01.api.letsencrypt.org/directory"
+
+---
+
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: kube-lego
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kube-lego
+    spec:
+      containers:
+      - name: kube-lego
+        image: jetstack/kube-lego:0.1.5
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: LEGO_EMAIL
+          valueFrom:
+            configMapKeyRef:
+              name: kube-lego-cm
+              key: lego.email
+        - name: LEGO_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kube-lego-cm
+              key: lego.url
+        - name: LEGO_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: LEGO_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          timeoutSeconds: 3
+```
+
+#### Troubleshooting/Common Errors
+
+##### `403 urn:acme:error:unauthorized: No registration exists matching provided key`
+This error happens when you first run `kube-lego-nginx` with the staging settings
+
+- - -
 
 ## Useful Aliases
 > Include this inside your `~/.profile` or specific `.[?]shrc` file
@@ -189,6 +293,8 @@ alias kcl='kubectl logs';
 alias kclf='kubectl logs -f';
 alias kcexec='kubectl exec';
 ```
+
+- - -
 
 ## Useful Links
 
