@@ -196,6 +196,39 @@ This section covers where to find which Kubernetes resources where in GCP
 
 The `apiVersion` root property has not been set.
 
+### Accessing global HTTP(S) Load Balancer logs
+
+Go to your GCP dashboard and access the left side menu item under **Logging** > **Logs**.
+
+Select **Cloud HTTP Load Balancer**.
+
+### Intermittent 502 Bad Gateway from global HTTP(S) Load Balancer
+
+#### Logs Output
+```json
+jsonPayload: {
+  @type:  "type.googleapis.com/google.cloud.loadbalancing.type.LoadBalancerLogEntry",
+  statusDetails:  "failed_to_connect_to_backend"   
+}
+```
+
+```json
+resource: {
+  labels: {
+   backend_service_name:  ""
+   forwarding_rule_name:  "k8s-fw-default-knearby-api-nginx-ing--c5f2619895d55113"
+   project_id:  "knearby-org"
+   target_proxy_name:  "k8s-tp-default-knearby-api-nginx-ing--c5f2619895d55113"
+   url_map_name:  "k8s-um-default-knearby-api-nginx-ing--c5f2619895d55113"
+   zone:  "global"
+  }
+  type:  "http_load_balancer"   
+}
+```
+#### Related Links
+- [URL Maps](https://cloud.google.com/compute/docs/load-balancing/http/url-map)
+
+
 ## Useful Aliases
 > Include this inside your `~/.profile` or specific `.[?]shrc` file
 
@@ -213,3 +246,4 @@ alias gcdpull='gcloud docker -- pull';
 - [Deploying a containerized web application](https://cloud.google.com/container-engine/docs/tutorials/hello-app)
 - [Setting up HTTP Load Balancing with Ingress](https://cloud.google.com/container-engine/docs/tutorials/http-balancer)
 - [Tuning NGINX behind Google Cloud Platform HTTP(S) Load Balancer](https://blog.percy.io/tuning-nginx-behind-google-cloud-platform-http-s-load-balancer-305982ddb340)
+- [Kubernetes made easy: Develop and deploy on a cloud cluster (Part 3: Ingress Controller)](https://beroux.com/english/articles/kubernetes/?part=3)
