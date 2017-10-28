@@ -29,6 +29,26 @@
 
 ## Troubleshooting
 
+### Case insensitive revision tracking
+
+#### Premise
+
+Some times it may be necessary to change the case of a filename. In such situations, code will continue working locally but if your runtime is case sensitive, it will fail to locate the file if the case is different. 
+
+#### Symptom
+
+`cannot find file '../../keys/apiKey.json`
+
+#### Solution
+
+Run the following on the file in question:
+
+```bash
+$ git mv -f oldfilename.ext OldFileName.ext
+```
+
+The command will track the case changes and your file in the source repository will be updated with the correct filename (from `oldfilename.ext` to `OldFileName.ext`).
+
 ### Handling merge conflicts
 
 #### Symptom
