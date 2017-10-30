@@ -155,7 +155,6 @@ Running `git fetch` does not fetch all branches even if they show up in the remo
 `git pull __REMOTE_NAME__ __BRANCH_NAME__`
 
 ### Pull via Rebase (fetch changes from remote and merge via rebase)
-
 `git pull --rebase __REMOTE_NAME__ __BRANCH_NAME__`
 
 ### Push local commits to remote
@@ -172,3 +171,21 @@ Running `git fetch` does not fetch all branches even if they show up in the remo
 
 ### Untrack a file
 `git rm --cached __PATH_TO_FILE__`
+
+## Useful Aliases
+
+#!/bin/sh
+
+```bash
+alias gpullcb="git pull origin $(git branch | grep '*' | cut -c 3- | tr -d '\n')";
+alias gpullrecb="git pull --rebase origin $(git branch | grep '*' | cut -c 3- | tr -d '\n')";
+alias gpushcb="git push origin $(git branch | grep '*' | cut -c 3- | tr -d '\n')";
+alias gco="git checkout";
+alias gcod="git checkout development";
+alias gcom="git checkout master";
+alias gsmud="git submodule update --init --recursive";
+```
+
+## Useful Links
+
+- [Git Magic](https://crypto.stanford.edu/~blynn/gitmagic/)
